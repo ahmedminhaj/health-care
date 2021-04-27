@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:health_care/services/auth-service/auth.dart';
 import 'package:health_care/services/database/database.dart';
+import 'package:health_care/views/auth/phone-login.dart';
+import 'package:health_care/views/home/join-form.dart';
 import 'package:health_care/views/nutritionist/list.dart';
 import 'package:health_care/widgets/input-field/input-decoration.dart';
 
@@ -36,14 +38,14 @@ class _SignUpState extends State<SignUp> {
       )
           .then((value) {
         //print("${value.userId}");
-        Map<String, dynamic> userInfoMap = {
-          "name": usernameController.text,
-          "email": emailController.text,
-          "role_id": roleId,
-        };
-        databaseMethods.uploadUserInfo(userInfoMap);
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => NutritionistList()));
+        // Map<String, dynamic> userInfoMap = {
+        //   "name": usernameController.text,
+        //   "email": emailController.text,
+        //   "role_id": roleId,
+        // };
+        // databaseMethods.uploadUserInfo(userInfoMap);
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => JoinForm()));
       });
     }
   }
@@ -65,6 +67,8 @@ class _SignUpState extends State<SignUp> {
                 child: Container(
                   padding: EdgeInsets.symmetric(horizontal: 24),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
                         padding: EdgeInsets.only(
@@ -127,53 +131,8 @@ class _SignUpState extends State<SignUp> {
                           ],
                         ),
                       ),
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Role: ',
-                                style: inputTextstyle(),
-                              ),
-                              Radio(
-                                value: 1,
-                                groupValue: roleId,
-                                onChanged: (val) {
-                                  setState(() {
-                                    selectedRole = 'patient';
-                                    roleId = 1;
-                                  });
-                                },
-                              ),
-                              Text(
-                                'patient',
-                                style: inputTextstyle(),
-                              ),
-                              SizedBox(
-                                width: 2,
-                              ),
-                              Radio(
-                                value: 2,
-                                groupValue: roleId,
-                                onChanged: (val) {
-                                  setState(() {
-                                    selectedRole = 'nutritionist';
-                                    roleId = 2;
-                                  });
-                                },
-                              ),
-                              Text(
-                                'nutritionist',
-                                style: inputTextstyle(),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
                       SizedBox(
-                        height: 12,
+                        height: 20,
                       ),
                       GestureDetector(
                         onTap: () {
@@ -204,24 +163,32 @@ class _SignUpState extends State<SignUp> {
                       SizedBox(
                         height: 10,
                       ),
-                      Container(
-                        alignment: Alignment.center,
-                        width: MediaQuery.of(context).size.width,
-                        padding: EdgeInsets.symmetric(vertical: 20),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                            color: Colors.pink[700],
-                            width: 2.0,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PhoneLogin()));
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: MediaQuery.of(context).size.width,
+                          padding: EdgeInsets.symmetric(vertical: 20),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              color: Colors.pink[700],
+                              width: 2.0,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Text(
-                          "Sign up with Google",
-                          style: TextStyle(
-                            color: Colors.pink[900],
-                            fontSize: 20,
-                            fontWeight: FontWeight.w500,
+                          child: Text(
+                            "Sign up with Phone",
+                            style: TextStyle(
+                              color: Colors.pink[900],
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                         ),
                       ),

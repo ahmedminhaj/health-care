@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/services/auth-service/auth.dart';
+import 'package:health_care/services/database/database.dart';
+import 'package:health_care/views/auth/phone-login.dart';
+import 'package:health_care/views/home/home-view.dart';
+import 'package:health_care/views/nutritionist/list.dart';
 import 'package:health_care/widgets/input-field/input-decoration.dart';
 
 class SignIn extends StatefulWidget {
@@ -10,8 +15,32 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  AuthMethods authMethods = new AuthMethods();
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+
+  final formKey = GlobalKey<FormState>();
   TextEditingController emailController = new TextEditingController();
   TextEditingController passwordController = new TextEditingController();
+
+  bool isLoading = false;
+
+  signInUser() {
+    if (formKey.currentState.validate()) {
+      setState(() {
+        isLoading = true;
+      });
+      authMethods
+          .signInWithEmailAndPassword(
+        emailController.text,
+        passwordController.text,
+      )
+          .then((value) {
+        //print("${value.userId}");
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => HomeView()));
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +48,7 @@ class _SignInState extends State<SignIn> {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(vertical: 30),
+          padding: EdgeInsets.symmetric(vertical: 35),
           alignment: Alignment.center,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 24),
@@ -41,77 +70,107 @@ class _SignInState extends State<SignIn> {
                     ),
                   ),
                 ),
-                TextField(
-                  controller: emailController,
-                  style: inputTextstyle(),
-                  decoration: textFieldInputDecoration("email"),
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                TextField(
-                  controller: passwordController,
-                  style: inputTextstyle(),
-                  decoration: textFieldInputDecoration("password"),
+                Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        validator: (value) {
+                          return RegExp(
+                                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)
+                              ? null
+                              : "enter a valid email";
+                        },
+                        controller: emailController,
+                        style: inputTextstyle(),
+                        decoration: textFieldInputDecoration("email"),
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      TextFormField(
+                        validator: (value) {
+                          return value.length > 6
+                              ? null
+                              : "enter a six character password";
+                        },
+                        controller: passwordController,
+                        style: inputTextstyle(),
+                        decoration: textFieldInputDecoration("password"),
+                      ),
+                    ],
+                  ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    child: Text(
-                      "Foraget Password",
-                      style: inputTextstyle(),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   alignment: Alignment.centerRight,
+                //   child: Container(
+                //     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                //     child: Text(
+                //       "Foraget Password",
+                //       style: inputTextstyle(),
+                //     ),
+                //   ),
+                // ),
                 SizedBox(
                   height: 12,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Colors.pink[900],
-                        Colors.pink[700],
-                      ],
+                GestureDetector(
+                  onTap: () {
+                    signInUser();
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.pink[900],
+                          Colors.pink[700],
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    "Sign In",
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
+                    child: Text(
+                      "Sign In",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
                 SizedBox(
                   height: 10,
                 ),
-                Container(
-                  alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width,
-                  padding: EdgeInsets.symmetric(vertical: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.pink[700],
-                      width: 2.0,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => PhoneLogin()));
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: MediaQuery.of(context).size.width,
+                    padding: EdgeInsets.symmetric(vertical: 20),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        color: Colors.pink[700],
+                        width: 2.0,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
                     ),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Text(
-                    "Sign in with Google",
-                    style: TextStyle(
-                      color: Colors.pink[900],
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
+                    child: Text(
+                      "Sign in with Phone",
+                      style: TextStyle(
+                        color: Colors.pink[900],
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ),
@@ -126,7 +185,7 @@ class _SignInState extends State<SignIn> {
                       style: inputTextstyle(),
                     ),
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         widget.toggle();
                       },
                       child: Container(

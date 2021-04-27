@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:health_care/helper/authenticate.dart';
 import 'package:health_care/services/auth-service/auth.dart';
 import 'package:health_care/services/database/database.dart';
 import 'package:health_care/views/nutritionist/search.dart';
@@ -43,25 +42,9 @@ class _NutritionistListState extends State<NutritionistList> {
             fontWeight: FontWeight.w700,
           ),
         ),
-        actions: [
-          GestureDetector(
-            onTap: () {
-              authMethods.signOut();
-              Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) => Authenticate()));
-            },
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(right: 8.0),
-                child: Icon(
-                  Icons.exit_to_app,
-                  size: 24,
-                  color: Colors.pink[900],
-                ),
-              ),
-            ),
-          )
-        ],
+        iconTheme: IconThemeData(
+          color: Colors.pink[900],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.search),

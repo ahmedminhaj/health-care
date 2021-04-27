@@ -4,11 +4,11 @@ import 'package:health_care/views/nutritionist/list-item.dart';
 
 Widget searchList(context, QuerySnapshot qSnapshot) {
   return ListView.builder(
-      itemCount: qSnapshot.documents.length,
+      itemCount: qSnapshot.docs.length,
       shrinkWrap: true,
       itemBuilder: (context, index) {
         return ListItem(
-          userName: qSnapshot.documents[index].data["name"],
+          userName: qSnapshot.docs[index].data()["name"] ?? "",
         );
       });
 }

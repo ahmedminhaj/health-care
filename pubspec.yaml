@@ -12,8 +12,10 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  firebase_auth: ^0.16.0
-  cloud_firestore: ^0.13.5
+  firebase_core: ^0.7.0
+  firebase_auth: ^0.20.0
+  cloud_firestore: ^0.16.0+1
+  font_awesome_flutter: ^8.8.1
 
 dev_dependencies:
   flutter_test:
@@ -25,6 +27,11 @@ flutter:
 
   assets:
     - assets/images/momCare.png
+    - assets/images/formImg.png
+    - assets/images/babyCare.png
+    - assets/images/e-consultation.png
+    - assets/images/consultation.png
+    - assets/images/safe-pregnancy.png
 
   # fonts:
   #   - family: Schyler
