@@ -1,4 +1,10 @@
-class AppUser{
+class AppUser {
   String userId;
-  AppUser({this.userId});
+  String username;
+  String email;
+  AppUser({
+    this.userId,
+    this.email,
+    this.username,
+  });
 }

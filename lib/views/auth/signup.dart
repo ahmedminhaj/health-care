@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/helper/helper-funtion.dart';
 import 'package:health_care/services/auth-service/auth.dart';
 import 'package:health_care/services/database/database.dart';
 import 'package:health_care/views/auth/phone-login.dart';
@@ -44,6 +45,7 @@ class _SignUpState extends State<SignUp> {
         //   "role_id": roleId,
         // };
         // databaseMethods.uploadUserInfo(userInfoMap);
+        HelperFunction.saveUserLoggedInSharedPreference(true);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => JoinForm()));
       });

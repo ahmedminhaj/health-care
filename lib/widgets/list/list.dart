@@ -9,6 +9,7 @@ Widget searchList(context, QuerySnapshot qSnapshot) {
       itemBuilder: (context, index) {
         return ListItem(
           userName: qSnapshot.docs[index].data()["name"] ?? "",
+          userEmail: qSnapshot.docs[index].data()["email"] ?? "",
         );
       });
 }

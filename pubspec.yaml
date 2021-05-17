@@ -16,6 +16,11 @@ dependencies:
   firebase_auth: ^0.20.0
   cloud_firestore: ^0.16.0+1
   font_awesome_flutter: ^8.8.1
+  shared_preferences: ^0.5.7+2
+  circular_profile_avatar: ^1.0.6
+  agora_rtc_engine: ^3.3.3
+  permission_handler: ^5.0.1
+  webview_flutter: ^0.3.20+2
 
 dev_dependencies:
   flutter_test:
@@ -32,6 +37,7 @@ flutter:
     - assets/images/e-consultation.png
     - assets/images/consultation.png
     - assets/images/safe-pregnancy.png
+    - assets/images/doctorArt.png
 
   # fonts:
   #   - family: Schyler

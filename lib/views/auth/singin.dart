@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:health_care/helper/constants.dart';
+import 'package:health_care/helper/helper-funtion.dart';
 import 'package:health_care/services/auth-service/auth.dart';
 import 'package:health_care/services/database/database.dart';
 import 'package:health_care/views/auth/phone-login.dart';
 import 'package:health_care/views/home/home-view.dart';
-import 'package:health_care/views/nutritionist/list.dart';
 import 'package:health_care/widgets/input-field/input-decoration.dart';
 
 class SignIn extends StatefulWidget {
@@ -23,21 +25,38 @@ class _SignInState extends State<SignIn> {
   TextEditingController passwordController = new TextEditingController();
 
   bool isLoading = false;
+  QuerySnapshot snapShotUserInfo;
 
-  signInUser() {
+  signInUser(){
     if (formKey.currentState.validate()) {
       setState(() {
         isLoading = true;
       });
+
+      databaseMethods.getUserByUserEmail(emailController.text).then((val){
+        snapShotUserInfo = val;
+        print(snapShotUserInfo.docs[0].data()['role_id']);
+        HelperFunction.saveUserEmailSharedPreference(snapShotUserInfo.docs[0].data()['email']);
+        HelperFunction.saveUserNameSharedPreference(snapShotUserInfo.docs[0].data()['name']);
+        HelperFunction.saveUserRoleIdSharedPreference(snapShotUserInfo.docs[0].data()['role_id']);
+      });
+
+
+
       authMethods
           .signInWithEmailAndPassword(
         emailController.text,
         passwordController.text,
       )
-          .then((value) {
+          .then((value) async {
         //print("${value.userId}");
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => HomeView()));
+        if (value != null) {
+          HelperFunction.saveUserLoggedInSharedPreference(true);
+          Constants.myRole = await HelperFunction.getUserRoleIdSharedPreference();
+          Navigator.pushReplacement(
+              context, MaterialPageRoute(builder: (context) => HomeView()));
+        }
+        
       });
     }
   }

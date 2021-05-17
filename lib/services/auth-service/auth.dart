@@ -5,7 +5,13 @@ class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   AppUser _userFromFirebaseUser(User user) {
-    return user != null ? AppUser(userId: user.uid) : null;
+    return user != null
+        ? AppUser(
+            userId: user.uid,
+            username: user.displayName,
+            email: user.email,
+          )
+        : null;
   }
 
   Future signInWithEmailAndPassword(String email, String password) async {

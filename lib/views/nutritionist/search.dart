@@ -15,12 +15,18 @@ class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchTextController = TextEditingController();
   QuerySnapshot searchSnapshot;
 
+
   searchNow() {
     databaseMethods.getUserByusername(searchTextController.text).then((value) {
       setState(() {
         searchSnapshot = value;
       });
     });
+  }
+
+  startConversation(){
+    // List<String> users = [];
+    // databaseMethods.createChatroom(chatId, chatMap);
   }
 
   @override

@@ -1,8 +1,31 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:health_care/services/database/database.dart';
+import 'package:health_care/views/nutritionist/nutritionist-profile.dart';
 
-class ListItem extends StatelessWidget {
+class ListItem extends StatefulWidget {
   final String userName;
-  ListItem({this.userName});
+  final String userEmail;
+  ListItem({this.userName, this.userEmail});
+
+  @override
+  _ListItemState createState() => _ListItemState();
+}
+
+class _ListItemState extends State<ListItem> {
+  DatabaseMethods databaseMethods = new DatabaseMethods();
+  QuerySnapshot snapShotNutritionistInfo;
+  openNutritionistProfile() {
+    databaseMethods.getUserByUserEmail(widget.userEmail).then((val) {
+      snapShotNutritionistInfo = val;
+      Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NutritionistProfile(
+          snapShotNutritionistInfo: snapShotNutritionistInfo,
+        )));
+    });
+    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -10,23 +33,28 @@ class ListItem extends StatelessWidget {
       child: Row(
         children: [
           Text(
-            userName,
+            widget.userName,
             style: TextStyle(
               color: Colors.pink[900],
               fontSize: 20,
             ),
           ),
           Spacer(),
-          Container(
-            decoration: BoxDecoration(
-                color: Colors.pink[900],
-                borderRadius: BorderRadius.circular(30)),
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: Text(
-              "Profile",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
+          GestureDetector(
+            onTap: () {
+              openNutritionistProfile();
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.pink[900],
+                  borderRadius: BorderRadius.circular(30)),
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Text(
+                "Profile",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),

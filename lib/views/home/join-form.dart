@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:health_care/helper/helper-funtion.dart';
 import 'package:health_care/services/database/database.dart';
 import 'package:health_care/views/home/home-view.dart';
 import 'package:health_care/views/nutritionist/list.dart';
@@ -27,6 +28,9 @@ class _JoinFormState extends State<JoinForm> {
           "role_id": roleId,
         };
         databaseMethods.uploadUserInfo(userInfoMap);
+        HelperFunction.saveUserNameSharedPreference(usernameController.text);
+        HelperFunction.saveUserEmailSharedPreference(emailController.text);
+        HelperFunction.saveUserRoleIdSharedPreference(roleId);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => HomeView()));
     }
