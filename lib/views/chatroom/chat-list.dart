@@ -77,7 +77,7 @@ class _ChatListState extends State<ChatList> {
         context,
         MaterialPageRoute(
           builder: (context) => CallPage(
-            channelName: "tat",
+            channelName: "finalC",
             role: ClientRole.Broadcaster,
           ),
         ),

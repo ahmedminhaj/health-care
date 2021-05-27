@@ -47,7 +47,7 @@ class _NutritionistProfileState extends State<NutritionistProfile> {
         context,
         MaterialPageRoute(
           builder: (context) => CallPage(
-            channelName: "tat",
+            channelName: "finalC",
             role: ClientRole.Broadcaster,
           ),
         ),

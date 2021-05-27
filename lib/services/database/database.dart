@@ -64,10 +64,4 @@ class DatabaseMethods {
         .snapshots();
   }
 
-  getVideoCallChannel(String userName) async {
-    return await FirebaseFirestore.instance
-        .collection("call")
-        .doc(userName)
-        .snapshots();
-  }
 }
